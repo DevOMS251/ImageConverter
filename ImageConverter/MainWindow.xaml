@@ -1,0 +1,89 @@
+﻿<Window x:Class="ImageConverter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Image Converter" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Main Content -->
+            <RowDefinition Height="40"/>
+            <!-- Footer -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- Left Panel -->
+            <ColumnDefinition Width="*"/>
+            <!-- Right Panel -->
+        </Grid.ColumnDefinitions>
+
+        <!-- 선택한 파일의 파일명 표시 -->
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                   x:Name="DroppedFilePath" 
+                   VerticalAlignment="Center" 
+                   Margin="10,0,0,0"/>
+
+        <!-- Drag and Drop 영역 -->
+        <Grid Grid.Row="1" Grid.Column="0" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <!-- Drop Area -->
+                <RowDefinition Height="40"/>
+                <!-- Controls -->
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" AllowDrop="True" Background="LightGray" Drop="Border_Drop">
+                <Grid>
+                    <!-- 이미지가 드롭되지 않았을 때 표시될 텍스트 -->
+                    <TextBlock Text="Drop Images Files Here" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Foreground="DarkGray" 
+                   x:Name="DropText"/>
+
+                    <!-- 드롭된 이미지를 표시 -->
+                    <Image x:Name="DroppedImage" Stretch="Uniform" Visibility="Collapsed"/>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 이미지 사이즈 입력 -->
+                <TextBlock Text="이미지 사이즈:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10"/>
+                <TextBox Grid.Column="1" x:Name="TI_IconSize" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="30" Text="32" Margin="0,0,10,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- 폴더 선택 -->
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <!-- Button -->
+                <ColumnDefinition Width="*"/>
+                <!-- Path -->
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Click="SelectFolder" Content="Select Folder" Width="100" Height="30" Margin="10,0" Style="{StaticResource StaticStyle}"/>
+            <TextBlock Grid.Column="1" x:Name="TS_SelectFolderPath" VerticalAlignment="Center" Margin="10,0,0,0" TextTrimming="CharacterEllipsis"/>
+        </Grid>
+
+        <!-- 폴더 내 .ico 파일 목록 -->
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="10"
+                      VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled">
+            <Grid Name="IconGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Loaded="IconGrid_Loaded"/>
+        </ScrollViewer>
+
+        <!-- 메시지 표시 -->
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" 
+                   x:Name="StateMsg" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" 
+                   Margin="10"/>
+    </Grid>
+</Window>
